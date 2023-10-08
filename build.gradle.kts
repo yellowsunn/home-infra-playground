@@ -15,7 +15,7 @@ subprojects {
 
     sonar {
         properties {
-            property("sonar.projectKey", "github.pr.project")
+            property("sonar.projectKey", "yellowsunn_home-infra-playground_AYsO44GeSRfkzjl51dyo")
         }
         isSkipProject = false
     }
