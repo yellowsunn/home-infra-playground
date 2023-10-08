@@ -12,11 +12,11 @@ subprojects {
     }
 
     java.sourceCompatibility = JavaVersion.VERSION_17
+}
 
-    sonar {
-        properties {
-            property("sonar.projectKey", "yellowsunn_home-infra-playground_AYsO44GeSRfkzjl51dyo")
-        }
-        isSkipProject = false
+sonar {
+    properties {
+        property("sonar.projectKey", "yellowsunn_home-infra-playground_AYsO44GeSRfkzjl51dyo")
     }
+    isSkipProject = false
 }
