@@ -2,7 +2,7 @@
 
 SonarQube 유료 버전에는 깃허브 PR, 깃랩 MR 등에 대해 정적 분석 코멘트를 남겨주는 **Pull Request decoration** 기능이 있다.
 
-하지만 무료 버전에도 한 플러그인을 설치하면 1개 브랜치에 한해서 동일한 기능을 사용할 수 있다.
+하지만 무료 버전에도 [한 플러그인](https://github.com/mc1arke/sonarqube-community-branch-plugin)을 설치하면 1개 브랜치에 한해서 동일한 기능을 사용할 수 있다.
 
 ### 적용 결과
 
