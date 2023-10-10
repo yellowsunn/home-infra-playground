@@ -1,0 +1,10 @@
+on:
+  workflow_dispatch:
+name: Harbor에 도커 이미지 배포하기
+jobs:
+  build:
+    name: push-image-on-harbor
+    runs-on: self-hosted
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
