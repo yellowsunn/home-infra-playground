@@ -21,7 +21,11 @@ jib {
     from {
         image = "10.10.10.6:80/archive/eclipse-temurin:17-jre-alpine"
     }
+    to {
+        tags = setOf("latest")
+    }
     container {
+        jvmFlags = listOf("-Xms512")
         ports = listOf("8080")
     }
 }
