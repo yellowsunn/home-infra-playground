@@ -1,0 +1,29 @@
+scalar Long
+scalar BigDecimal
+
+type Query {
+    findProducts(page: Int, size: Int): ProductPage
+}
+
+type ProductPage {
+    contents: [ProductPageContent],
+    page: Int,
+    size: Int,
+    numberOfElements: Long,
+    totalPages: Int,
+    totalElements: Long
+}
+
+type ProductPageContent {
+    id: Long,
+    title: String,
+    description: String,
+    price: BigDecimal,
+    discountPercentage: Float,
+    rating: Float,
+    stock: Long,
+    brand: String,
+    category: String,
+    thumbnail: String,
+    images: [String],
+}
