@@ -15,7 +15,7 @@ class ProductService(
 ) : ProductUseCase {
     override fun getProducts(page: Int, size: Int): Mono<Page<ProductPageCommandResult>> {
         return productPort.findProducts(
-            PageRequest(page = page - 1, size = size),
+            PageRequest(page = page, size = size),
         ).map {
             ProductCommandPageConverter.CONVERTER.convertToCommandResult(it)
         }

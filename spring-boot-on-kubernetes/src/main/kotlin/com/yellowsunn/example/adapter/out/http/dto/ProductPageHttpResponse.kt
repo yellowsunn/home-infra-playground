@@ -5,7 +5,7 @@ import java.math.BigDecimal
 class ProductPageHttpResponse(
     val products: List<Product>,
     val total: Long,
-    private val skip: Long,
+    val skip: Long,
 ) {
     data class Product(
         val id: Long,
@@ -21,15 +21,15 @@ class ProductPageHttpResponse(
         val images: List<String>,
     )
 
-    fun getPage(size: Int): Int {
-        return (skip / size).toInt()
+    fun calcPage(size: Int): Int {
+        return (skip / size).toInt() + 1
     }
 
     fun getNumberOfElements(): Long {
         return products.size.toLong()
     }
 
-    fun getTotalPages(size: Int): Int {
-        return (total / size).toInt()
+    fun calcTotalPages(size: Int): Int {
+        return (total / size).toInt() + 1
     }
 }

@@ -40,11 +40,18 @@ subprojects {
 
 sonar {
     properties {
+        val exclusions = listOf(
+            "**/test/**",
+            "**/*Application*.java",
+            "**/*Application*.kt",
+            "**/*Config*.java",
+            "**/*Config*.kt",
+        )
         property("sonar.projectKey", "yellowsunn_home-infra-playground_AYsO44GeSRfkzjl51dyo")
         property("sonar.sources", "src")
         property("sonar.sourceEncoding", "UTF-8")
-        property("sonar.test.inclusions", "**/*Test.java")
-        property("sonar.exclusions", "**/test/**, **/*Application*.java, **/*Config*.java")
+        property("sonar.test.inclusions", "**/*Test.java, **/*Test.kt")
+        property("sonar.exclusions", exclusions.joinToString(","))
         property("sonar.java.coveragePlugin", "jacoco")
     }
     isSkipProject = false

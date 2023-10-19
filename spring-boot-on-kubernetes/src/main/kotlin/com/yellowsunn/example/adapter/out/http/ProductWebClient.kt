@@ -22,7 +22,7 @@ class ProductWebClient : ProductPort {
     override fun findProducts(pageRequest: PageRequest): Mono<Page<Product>> {
         val uri = UriComponentsBuilder.newInstance()
             .path("/products")
-            .queryParam("skip", pageRequest.getSkip())
+            .queryParam("skip", (pageRequest.page - 1) * pageRequest.size)
             .queryParam("limit", pageRequest.size)
             .build()
             .toUriString()
@@ -34,10 +34,10 @@ class ProductWebClient : ProductPort {
             .map {
                 Page(
                     contents = ProductPageHttpConverter.CONVERTER.convertToProducts(it.products),
-                    page = it.getPage(pageRequest.size) + 1,
+                    page = it.calcPage(pageRequest.size),
                     size = pageRequest.size,
                     numberOfElements = it.getNumberOfElements(),
-                    totalPages = it.getTotalPages(pageRequest.size),
+                    totalPages = it.calcTotalPages(pageRequest.size),
                     totalElements = it.total,
                 )
             }
