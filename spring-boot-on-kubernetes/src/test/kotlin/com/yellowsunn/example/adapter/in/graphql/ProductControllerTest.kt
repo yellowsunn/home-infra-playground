@@ -38,7 +38,8 @@ class ProductControllerTest {
     fun findProducts() {
         // given
         val findProductQuery = ClassPathResource("mock/graphql/findProductsQuery.graphql")
-        val commandResult = fixtureMonkey.giveMeBuilder<Page<ProductPageCommandResult>>()
+            .getContentAsString(Charsets.UTF_8)
+        val commandResult: Page<ProductPageCommandResult> = fixtureMonkey.giveMeBuilder<Page<ProductPageCommandResult>>()
             .setExp(Page<ProductPageCommandResult>::contents, fixtureMonkey.giveMe<ProductPageCommandResult>(5))
             .sample()
         given(productUseCase.getProducts(page = anyInt(), size = anyInt()))
@@ -46,7 +47,7 @@ class ProductControllerTest {
 
         // when
         // then
-        graphQlTester.document(findProductQuery.getContentAsString(Charsets.UTF_8))
+        graphQlTester.document(findProductQuery)
             .execute()
             .path("findProducts").entity(object : ParameterizedTypeReference<Page<ProductPageResponse>>() {
             })

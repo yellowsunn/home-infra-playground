@@ -43,7 +43,7 @@ class ProductHttpClientTest {
     }
 
     @Test
-    fun `product page 조회`() {
+    fun `find product page`() {
         // given
         val productsJson: String = ClassPathResource("mock/json/products.json")
             .getContentAsString(Charsets.UTF_8)
