@@ -27,7 +27,7 @@ class ProductPageHttpResponseTest {
         val page: Int = response.calcPage(size)
 
         // then
-        assertThat(page).isEqualTo(6)
+        assertThat(page).isEqualTo(5)
     }
 
     @Test

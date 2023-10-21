@@ -1,6 +1,7 @@
 package com.yellowsunn.example.adapter.out.http.dto
 
 import java.math.BigDecimal
+import kotlin.math.ceil
 
 class ProductPageHttpResponse(
     val products: List<Product>,
@@ -22,7 +23,7 @@ class ProductPageHttpResponse(
     )
 
     fun calcPage(size: Int): Int {
-        return (skip / size).toInt() + 1
+        return (skip / size).toInt()
     }
 
     fun getNumberOfElements(): Long {
@@ -30,6 +31,6 @@ class ProductPageHttpResponse(
     }
 
     fun calcTotalPages(size: Int): Int {
-        return (total / size).toInt() + 1
+        return ceil(total.toDouble() / size).toInt()
     }
 }

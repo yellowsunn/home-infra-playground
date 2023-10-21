@@ -8,6 +8,7 @@ import org.springframework.graphql.data.method.annotation.Argument
 import org.springframework.graphql.data.method.annotation.QueryMapping
 import org.springframework.stereotype.Controller
 import reactor.core.publisher.Mono
+import kotlin.math.max
 
 @Controller
 class ProductController(
@@ -24,8 +25,8 @@ class ProductController(
         @Argument size: Int?,
     ): Mono<Page<ProductPageResponse>> {
         return productUseCase.getProducts(
-            page = page ?: 1,
-            size = size ?: DEFAULT_PAGE_SIZE,
+            page = max(page ?: 0, 0),
+            size = max(size ?: DEFAULT_PAGE_SIZE, 1),
         ).map {
             ProductPageConverter.CONVERTER.convertToResponse(it)
         }
