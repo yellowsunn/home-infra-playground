@@ -38,11 +38,10 @@ class ProductServiceTest {
 
         // then
         stepVerifier
-            .expectNextMatches { it: Page<ProductPageCommandResult> ->
+            .assertNext { it: Page<ProductPageCommandResult> ->
                 assertThat(it.contents).hasSameSizeAs(productPage.contents)
                 assertThat(it.page).isEqualTo(productPage.page)
                 assertThat(it.size).isEqualTo(productPage.size)
-                true
             }
             .verifyComplete()
     }

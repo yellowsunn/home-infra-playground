@@ -60,12 +60,11 @@ class ProductHttpClientTest {
 
         // then
         stepVerifier
-            .expectNextMatches { it: Page<Product> ->
+            .assertNext { it: Page<Product> ->
                 assertThat(it.contents).hasSize(10)
                 assertThat(it.page).isEqualTo(2)
                 assertThat(it.totalElements).isEqualTo(100)
                 assertThat(it.totalPages).isEqualTo(10)
-                true
             }
             .verifyComplete()
     }

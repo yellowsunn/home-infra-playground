@@ -8,53 +8,49 @@ import com.yellowsunn.example.application.port.`in`.ProductUseCase
 import com.yellowsunn.example.application.port.`in`.dto.ProductPageCommandResult
 import com.yellowsunn.example.common.model.Page
 import com.yellowsunn.example.fixtureMonkey
-import io.mockk.junit5.MockKExtension
+import io.mockk.every
+import io.mockk.mockk
+import io.mockk.verify
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.extension.ExtendWith
-import org.mockito.BDDMockito.anyInt
-import org.mockito.BDDMockito.given
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.autoconfigure.graphql.tester.AutoConfigureGraphQlTester
-import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.boot.test.mock.mockito.MockBean
-import org.springframework.core.ParameterizedTypeReference
-import org.springframework.core.io.ClassPathResource
-import org.springframework.graphql.test.tester.GraphQlTester
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.CsvSource
 import reactor.kotlin.core.publisher.toMono
+import reactor.test.StepVerifier
 
-@ExtendWith(MockKExtension::class)
-@SpringBootTest
-@AutoConfigureGraphQlTester
 class ProductControllerTest {
 
-    @Autowired
-    private lateinit var graphQlTester: GraphQlTester
+    private val productUseCase: ProductUseCase = mockk()
+    private val productController = ProductController(productUseCase = productUseCase)
 
-    @MockBean
-    private lateinit var productUseCase: ProductUseCase
-
-    @Test
-    fun findProducts() {
+    @ParameterizedTest(name = "상품 페이지 목록 조회")
+    @CsvSource(
+        value = [
+            "0, 10, 0, 10",
+            "-1, 0, 0, 1",
+            "null, null, 0, 10",
+        ],
+        nullValues = ["null"],
+    )
+    fun findProducts(page: Int?, size: Int?, expectedPage: Int, expectedSize: Int) {
         // given
-        val findProductQuery = ClassPathResource("mock/graphql/findProductsQuery.graphql")
-            .getContentAsString(Charsets.UTF_8)
-        val commandResult: Page<ProductPageCommandResult> = fixtureMonkey.giveMeBuilder<Page<ProductPageCommandResult>>()
-            .setExp(Page<ProductPageCommandResult>::contents, fixtureMonkey.giveMe<ProductPageCommandResult>(5))
-            .sample()
-        given(productUseCase.getProducts(page = anyInt(), size = anyInt()))
-            .willReturn(commandResult.toMono())
+        val commandResult: Page<ProductPageCommandResult> =
+            fixtureMonkey.giveMeBuilder<Page<ProductPageCommandResult>>()
+                .setExp(Page<ProductPageCommandResult>::contents, fixtureMonkey.giveMe<ProductPageCommandResult>(5))
+                .sample()
+        every { productUseCase.getProducts(page = any(), size = any()) } returns commandResult.toMono()
 
         // when
+        val stepVerifier = productController.findProducts(page = page, size = size)
+            .`as` { StepVerifier.create(it) }
+
         // then
-        graphQlTester.document(findProductQuery)
-            .execute()
-            .path("findProducts").entity(object : ParameterizedTypeReference<Page<ProductPageResponse>>() {
-            })
-            .satisfies { it: Page<ProductPageResponse> ->
-                assertThat(it.contents).hasSize(commandResult.contents.size)
+        stepVerifier
+            .assertNext { it: Page<ProductPageResponse> ->
+                verify(exactly = 1) { productUseCase.getProducts(page = expectedPage, size = expectedSize) }
+                assertThat(it.contents).hasSameSizeAs(commandResult.contents)
                 assertThat(it.page).isEqualTo(commandResult.page)
                 assertThat(it.size).isEqualTo(commandResult.size)
             }
+            .verifyComplete()
     }
 }
