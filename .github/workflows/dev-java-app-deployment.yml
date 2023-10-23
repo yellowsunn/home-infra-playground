@@ -1,4 +1,4 @@
-name: Dev 어플리케이션 수동 배포 파이프라인
+name: (Dev) 자바 어플리케이션 수동 배포 파이프라인
 on:
   workflow_dispatch:
     inputs:
@@ -26,8 +26,9 @@ jobs:
             echo "basePath=spring-boot-on-kubernetes" >> $GITHUB_ENV
             echo "harborProject=test" >> $GITHUB_ENV
             echo "imageName=spring-boot-example" >> $GITHUB_ENV
+            echo "manifestPath=home-infra-manifest/spring-boot-example" >> "$GITHUB_ENV"
           fi
-      - name: Deploy Container Image
+      - name: Trigger Deploy Docker Image
         uses: peter-evans/repository-dispatch@v2
         with:
           token: ${{ secrets.GIT_HUB_PERSONAL_ACCESS_TOKEN }}
@@ -39,4 +40,5 @@ jobs:
               "projectName": "${{ env.harborProject }}",
               "image": "${{ env.imageName }}",
               "tag": "${{ env.deploymentVersion }}"
+              "manifestPath": ${{ env.manifestPath }}
             }
