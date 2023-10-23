@@ -38,7 +38,7 @@ jobs:
           event-type: deploy-docker-image
           client-payload: |-
             {
-              "gitBranch": "${ env.gitBranch }",
+              "gitBranch": "${{ env.gitBranch }}",
               "basePath": "${{ env.basePath }}",
               "projectName": "${{ env.harborProject }}",
               "image": "${{ env.imageName }}",
