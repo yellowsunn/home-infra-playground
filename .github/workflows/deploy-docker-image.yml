@@ -46,7 +46,7 @@ jobs:
           client-payload: |-
             {
               "requested-event-path": "${{ env.GITHUB_EVENT_PATH }}",
-              "container-image": "${{ env.image }}",
+              "container-image": "harbor.yellowsunn.com:80/${{ env.projectName }}/${{ env.image }}",
               "deployment-version": "${{ env.tag }}",
               "overlay-path": "${{ env.manifestPath }}"
             }
