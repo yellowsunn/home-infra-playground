@@ -40,5 +40,5 @@ jobs:
               "projectName": "${{ env.harborProject }}",
               "image": "${{ env.imageName }}",
               "tag": "${{ env.deploymentVersion }}"
-              "manifestPath": ${{ env.manifestPath }}
+              "manifestPath": "${{ env.manifestPath }}"
             }
