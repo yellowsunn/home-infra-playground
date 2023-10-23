@@ -1,14 +1,41 @@
+name: Dev 어플리케이션 수동 배포 파이프라인
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - main
-    paths:
-      - spring-boot-on-kubernetes/**
-name: Spring boot example 배포 파이프라인
+    inputs:
+      application:
+        description: 어플리케이션
+        required: true
+        type: choice
+        options:
+          - spring-boot-example
 jobs:
   deploy-image:
     runs-on: self-hosted
     steps:
-      - name: hello
-        run: echo 'hello'
+      - name: Get current time
+        uses: josStorer/get-current-time@v2
+        id: current-time
+        with:
+          format: yyyyMMDDHHmmss
+          utcOffset: "+09:00"
+      - name: Get deploy version
+        run: echo "deploymentVersion=${{ steps.current-time.outputs.formattedTime }}" >> $GITHUB_ENV
+      - name: Set Application Value
+        run:  |
+          if [ "${{ inputs.application }}" == "spring-boot-example" ]; then
+            echo "basePath=spring-boot-on-kubernetes" >> $GITHUB_ENV
+            echo "harborProject=test" >> $GITHUB_ENV
+            echo "imageName=spring-boot-example" >> $GITHUB_ENV
+          fi
+      - name: Deploy Container Image
+        uses: peter-evans/repository-dispatch@v2
+        with:
+          repository: yellowsunn/home-infra-playground
+          event-type: deploy-docker-image
+          client-payload: |-
+            {
+              "basePath": "${{ env.basePath }}",
+              "projectName": "${{ env.harborProject }}",
+              "image": "${{ env.imageName }}",
+              "tag": "${{ env.deploymentVersion }}"
+            }
