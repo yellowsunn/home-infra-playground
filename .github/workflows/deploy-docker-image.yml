@@ -7,8 +7,14 @@ jobs:
     name: push-image-on-harbor
     runs-on: self-hosted
     steps:
+      - name: Get Branch Name
+        run: |
+          echo "gitBranch=${{ github.event.client_payload.gitBranch }}" >> $GITHUB_ENV
+          echo "Checkout branch - ${{ env.gitBranch }}"
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          ref: ${{ env.gitBranch }}
       - name: Get Client Payload
         run: |
           echo "basePath=${{ github.event.client_payload.basePath }}" >> $GITHUB_ENV

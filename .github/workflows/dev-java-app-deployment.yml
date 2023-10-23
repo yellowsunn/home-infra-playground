@@ -12,6 +12,8 @@ jobs:
   deploy-image:
     runs-on: self-hosted
     steps:
+      - name: branch - ${{ github.ref_name }}
+        run: echo "gitBranch=${{ github.ref_name }}" >> $GITHUB_ENV
       - name: Get current time
         uses: josStorer/get-current-time@v2
         id: current-time
@@ -36,6 +38,7 @@ jobs:
           event-type: deploy-docker-image
           client-payload: |-
             {
+              "gitBranch": "${ env.gitBranch }",
               "basePath": "${{ env.basePath }}",
               "projectName": "${{ env.harborProject }}",
               "image": "${{ env.imageName }}",
