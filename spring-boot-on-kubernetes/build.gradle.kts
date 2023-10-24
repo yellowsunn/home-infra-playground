@@ -51,7 +51,7 @@ tasks.withType<Test> {
 jib {
     setAllowInsecureRegistries(true)
     from {
-        image = "10.10.10.6:80/archive/eclipse-temurin:17-jre-alpine"
+        image = "harbor.yellowsunn.com:80/archive/eclipse-temurin:17-jre-alpine-pinpoint-2.5.2"
     }
     to {
         tags = setOf("latest")
