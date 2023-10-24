@@ -1,0 +1,55 @@
+name: 도커 이미지 배포 및 태그 업데이트
+on:
+  repository_dispatch:
+    types: [ deploy-docker-image ]
+jobs:
+  build:
+    name: push-image-on-harbor
+    runs-on: self-hosted
+    steps:
+      - name: Get Client Payload
+        run: |
+          echo "gitBranch=${{ github.event.client_payload.gitBranch }}" >> $GITHUB_ENV
+          echo "basePath=${{ github.event.client_payload.basePath }}" >> $GITHUB_ENV
+          echo "projectName=${{ github.event.client_payload.projectName }}" >> $GITHUB_ENV
+          echo "image=${{ github.event.client_payload.image }}" >> $GITHUB_ENV
+          echo "tag=${{ github.event.client_payload.tag }}" >> $GITHUB_ENV
+          echo "manifestPath=${{ github.event.client_payload.manifestPath }}" >> $GITHUB_ENV
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ env.gitBranch }}
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: 17
+          distribution: temurin
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+      - name: Build and Deploy api server image 🚀
+        uses: gradle/gradle-build-action@v2
+        with:
+          gradle-version: wrapper
+          cache-read-only: true
+          arguments: |
+            :${{ env.basePath }}:jib
+            -DsendCredentialsOverHttp=true
+            -Djib.from.auth.username=${{ secrets.HARBOR_USERNAME }}
+            -Djib.from.auth.password=${{ secrets.HARBOR_PASSWORD }}
+            -Djib.to.image=harbor.yellowsunn.com:80/${{ env.projectName }}/${{ env.image }}
+            -Djib.to.tags=${{ env.tag }},latest
+            -Djib.to.auth.username=${{ secrets.HARBOR_USERNAME }}
+            -Djib.to.auth.password=${{ secrets.HARBOR_PASSWORD }}
+      - name: Trigger Update Image tag
+        uses: peter-evans/repository-dispatch@v2
+        with:
+          token: ${{ secrets.GIT_HUB_PERSONAL_ACCESS_TOKEN }}
+          repository: yellowsunn/argocd-manifest
+          event-type: change-image-tag
+          client-payload: |-
+            {
+              "requested-event-path": "${{ env.GITHUB_EVENT_PATH }}",
+              "container-image": "harbor.yellowsunn.com:80/${{ env.projectName }}/${{ env.image }}",
+              "deployment-version": "${{ env.tag }}",
+              "overlay-path": "${{ env.manifestPath }}"
+            }
