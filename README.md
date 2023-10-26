@@ -6,3 +6,6 @@
 
 ### 2. [Private Docker Registry (Harbor)](https://github.com/yellowsunn/home-infra-playground)
 * 개인 도커 이미지 저장소 Harbor 에 이미지 업로드 하기
+
+### 3. [Pinpoint APM](https://github.com/yellowsunn/home-infra-playground/tree/main/pinpoint-apm)
+* Pinpoint APM 으로 모니터링 시스템 구축
