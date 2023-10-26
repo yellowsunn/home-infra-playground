@@ -4,7 +4,7 @@
 ### 1. [Sonarqube PR Decoration](https://github.com/yellowsunn/home-infra-playground/tree/main/sonarqube-pr-decoration)
 * PR 생성시 Sonarqube 로 코드 정적 분석 및 결과값 코멘트 생성하기
 
-### 2. [Private Docker Registry (Harbor)](https://github.com/yellowsunn/home-infra-playground)
+### 2. [Private Docker Registry (Harbor)](https://github.com/yellowsunn/home-infra-playground/tree/main/private-docker-registry-example)
 * 개인 도커 이미지 저장소 Harbor 에 이미지 업로드 하기
 
 ### 3. [Pinpoint APM](https://github.com/yellowsunn/home-infra-playground/tree/main/pinpoint-apm)
