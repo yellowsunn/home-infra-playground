@@ -1,4 +1,6 @@
 spring:
+  application:
+    name: spring-boot-example
   graphql:
     graphiql:
       enabled: true
