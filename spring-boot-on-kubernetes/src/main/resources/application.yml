@@ -15,3 +15,4 @@ management:
   metrics:
     tags:
       application: ${spring.application.name}
+      instance-id: ${random.value}
