@@ -43,8 +43,10 @@ helm install prometheus prometheus-community/prometheus --version 23.4.0 -f valu
 
 * 설정: [values.yaml](./helm/values.yaml)
 
-## 3. Prometheus 실행 확인
+## 3. 실행 결과
+### 3.1. 프로메테우스 PromQL 실행 예시
+<img width="1586" alt="스크린샷 2023-11-12 오후 8 13 28" src="https://github.com/yellowsunn/home-infra-playground/assets/43487002/7d099f1b-38a6-4e76-a18c-b0ff56c24dfc">
 
+### 3.2. Grafana 와 연동하여 어플리케이션 모니터링 시스템 구성
+<img width="1592" alt="스크린샷 2023-11-12 오후 8 18 13" src="https://github.com/yellowsunn/home-infra-playground/assets/43487002/cc7c4bba-b96e-409c-8ff3-1c8ca4b9b074">
 
-
-## 4. Grafana 연동 결과 확인
