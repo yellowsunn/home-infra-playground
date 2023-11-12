@@ -9,3 +9,6 @@
 
 ### 3. [Pinpoint APM](https://github.com/yellowsunn/home-infra-playground/tree/main/pinpoint-apm)
 * Pinpoint APM 으로 모니터링 시스템 구축
+
+### 4. [Prometheus](https://github.com/yellowsunn/home-infra-playground/tree/main/prometheus)
+* Prometheus 로 모니터링 시스템 구성하기
