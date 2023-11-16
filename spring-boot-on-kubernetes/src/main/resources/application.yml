@@ -1,6 +1,10 @@
+server:
+  shutdown: graceful
 spring:
   application:
     name: spring-boot-example
+  lifecycle:
+    timeout-per-shutdown-phase: 20s
   graphql:
     graphiql:
       enabled: true
