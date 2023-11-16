@@ -29,6 +29,8 @@ dependencies {
     kapt("org.mapstruct:mapstruct-processor:1.5.5.Final")
     kaptTest("org.mapstruct:mapstruct-processor:1.5.5.Final")
 
+    runtimeOnly("io.micrometer:micrometer-registry-prometheus")
+
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.graphql:spring-graphql-test")
     testImplementation("io.projectreactor:reactor-test")
