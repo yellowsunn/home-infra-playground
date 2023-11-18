@@ -28,7 +28,7 @@ jobs:
             echo "basePath=spring-boot-on-kubernetes" >> $GITHUB_ENV
             echo "harborProject=test" >> $GITHUB_ENV
             echo "imageName=spring-boot-example" >> $GITHUB_ENV
-            echo "manifestPath=home-infra-manifest/spring-boot-example" >> $GITHUB_ENV
+            echo "manifestPath=spring-boot-example" >> $GITHUB_ENV
           fi
       - name: Trigger Deploy Docker Image
         uses: peter-evans/repository-dispatch@v2

@@ -44,7 +44,7 @@ jobs:
         uses: peter-evans/repository-dispatch@v2
         with:
           token: ${{ secrets.GIT_HUB_PERSONAL_ACCESS_TOKEN }}
-          repository: yellowsunn/argocd-manifest
+          repository: yellowsunn-home-server/kubernetes-manifest
           event-type: change-image-tag
           client-payload: |-
             {
