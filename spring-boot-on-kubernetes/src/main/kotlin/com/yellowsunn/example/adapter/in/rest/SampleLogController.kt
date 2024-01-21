@@ -14,7 +14,7 @@ class SampleLogController {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @GetMapping("/api/logs/warn")
     fun warnLog() {
-        logger.warn("This is warning log.")
+        logger.warn("This is warning log, test")
     }
 
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
